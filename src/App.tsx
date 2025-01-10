@@ -3,6 +3,7 @@ const App = () => {
   return (
     <>
       <div className="border rounded-lg shadow-lg p-4">
+        <h2>welcome</h2>
         <ul className="divide-y divide-gray-200">
           <h1 className="py-4 font-bold text-4xl">LIST</h1>
           <li className="py-4">An item</li>
