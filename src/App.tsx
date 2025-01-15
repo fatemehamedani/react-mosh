@@ -1,18 +1,18 @@
-import { useState } from "react";
-import Button from "./components/Button";
-import Alert from "./components/Alert";
 
-function App() {
+import { HiOutlineCog } from "react-icons/hi";
+import ListGroup from './components/ListGroup';
 
-  const [alertVisible, setAlertVisibility] = useState(false);
+const App = () => {
+
+  const items = ["Isfahan", "Tehran", "Shiraz", "rasht"];
 
   return (
     <div>
-      {alertVisible && (
-        <Alert onClose={() => setAlertVisibility(false)}>My Alert</Alert>
-      )}
-      <Button onclick={() => setAlertVisibility(true)}>My Button</Button>
+      <HiOutlineCog color="blue" size={40}/>
+      <ListGroup heading='Iran' items={items} onSelectItem={() => {}}/>
     </div>
-  );
+  )
 }
-export default App;
+
+export default App
+
