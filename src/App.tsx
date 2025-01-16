@@ -1,18 +1,12 @@
-
-import { HiOutlineCog } from "react-icons/hi";
-import ListGroup from './components/ListGroup';
+import Like from "./components/Like/Like";
 
 const App = () => {
-
-  const items = ["Isfahan", "Tehran", "Shiraz", "rasht"];
-
   return (
     <div>
-      <HiOutlineCog color="blue" size={40}/>
-      <ListGroup heading='Iran' items={items} onSelectItem={() => {}}/>
+      <Like onClick={() => console.log("clicked")
+      }/>
     </div>
-  )
+  );
 }
 
-export default App
-
+export default App;

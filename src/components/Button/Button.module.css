@@ -1,0 +1,9 @@
+.button{
+   padding: 8px 12px;
+   border-radius: 3px ;
+   border: 0;
+}
+.button-primary{
+    background-color: rgba(253, 11, 181, 0.959);
+    color: white;
+}
