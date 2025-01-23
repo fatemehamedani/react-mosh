@@ -15,7 +15,7 @@ const Form = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = (data: FieldValues) => console.log(data);
@@ -45,7 +45,10 @@ const Form = () => {
           className="border border-gray-600 rounded-md px-1 py-2"
         />
         {errors.age && <p className="text-red-700">{errors.age.message}</p>}
-        <button className="bg-blue-600 text-white py-2 mt-4 w-28 rounded font-bold">
+        <button
+          disabled={!isValid}
+          className="bg-blue-600 text-white py-2 mt-4 w-28 rounded font-bold"
+        >
           Submit
         </button>
       </div>
