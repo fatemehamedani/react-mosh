@@ -13,7 +13,7 @@ interface Props {
 }
 
 const ExpenseList = ({ expenses, onDelete }: Props) => {
-    if (expenses.length === 0) return null;
+  if (expenses.length === 0) return null;
   return (
     <div>
       <table className="table-auto"></table>
