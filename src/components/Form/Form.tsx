@@ -1,42 +1,47 @@
 import { useState, FormEvent } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import "./Form.css";
 
-const Form = () => {
-  const [person, setPerson] = useState({
-    name: "",
-    age: "",
-  });
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    console.log(person);
-  };
+interface FormData {
+  name: string;
+  age: number;
+}
+
+const Form = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const onSubmit = (data: FieldValues) => console.log(data);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex flex-col my-4 w-56 px-3">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex flex-col my-4 w-72 px-3">
         <label htmlFor="name" className="label mb-2">
           Name
         </label>
         <input
-          onChange={(event) =>
-            setPerson({ ...person, name: event.target.value })
-          }
-          value={person.name}
+          {...register("name", { required: true, minLength: 3 })}
           id="name"
           type="text"
           className="border border-gray-600 rounded-md px-1 py-2"
         />
+        {errors.name?.type === "required" && (
+          <p className="text-red-700">The name filed is required</p>
+        )}
+        {errors.name?.type === "minLength" && (
+          <p className="text-red-700">The name must be at least 3 characters</p>
+        )}
       </div>
-      <div className="flex flex-col my-4 w-56 px-3">
+      <div className="flex flex-col my-4 w-72 px-3">
         <label htmlFor="age" className="label mb-2">
           Age
         </label>
         <input
-          onChange={(event) =>
-            setPerson({ ...person, age: parseInt(event.target.value) })
-          }
-          value={person.age}
+          {...register("age")}
           id="age"
           type="number"
           className="border border-gray-600 rounded-md px-1 py-2"
