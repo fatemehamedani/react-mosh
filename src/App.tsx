@@ -4,6 +4,7 @@ import ExpenseList from "./expense-tracket/components/ExpenseList";
 import ExpenseFilter from "./expense-tracket/components/ExpenseFilter";
 
 const App = () => {
+  const [selectedCategory , setSelectedCategory] = useState('');
   const [expenses, setExpenses] = useState([
     { id: 1, description: "aaa", amount: 10, category: "Utilities" },
     { id: 2, description: "bbb", amount: 10, category: "Utilities" },
@@ -11,11 +12,15 @@ const App = () => {
     { id: 4, description: "ddd", amount: 10, category: "Utilities" },
   ]);
 
+  const visibleExpense = selectedCategory ? expenses.filter(e => e.category === selectedCategory) : expenses;
+
   return (
     <div>
-      <ExpenseFilter onSelectCategory={(category) => console.log(category)} />
+      <div className="mb-4 border border-gray-700 font-thin ">
+        <ExpenseFilter onSelectCategory={(category) => setSelectedCategory(category)} />
+      </div>
       <ExpenseList
-        expenses={expenses}
+        expenses={visibleExpense}
         onDelete={(id) => setExpenses(expenses.filter((e) => e.id !== id))}
       />
     </div>
