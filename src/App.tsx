@@ -3,8 +3,7 @@ import Form from "./components/Form/Form";
 import ExpenseList from "./expense-tracket/components/ExpenseList";
 import ExpenseFilter from "./expense-tracket/components/ExpenseFilter";
 import ExpenseForm from "./expense-tracket/components/ExpenseForm";
-
-export const categories = ["Groceries", "Utilities", "Entertainment"];
+import categories from "./expense-tracket/categories";
 
 const App = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
