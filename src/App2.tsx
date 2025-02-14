@@ -20,7 +20,7 @@ const App2 = () => {
         <option value="household">Household</option>
       </select>
 
-      <ProductList />
+      <ProductList category={category} />
     </div>
   );
 };
