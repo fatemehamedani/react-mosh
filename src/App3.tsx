@@ -1,5 +1,4 @@
-import axios from "axios";
-// import { set } from "immer/dist/internal.js";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 
 function App3() {
@@ -9,13 +8,20 @@ function App3() {
   }
 
   const [users, setUsers] = useState<User[]>([]);
-  const [error, setError] = useState([""]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    axios
-      .get<User[]>("https://jsonplaceholder.typicode.com/users")
-      .then((Response) => setUsers(Response.data))
-      .catch((error) => setError(error.message));
+    const fetchUsers = async () => {
+      try {
+        const Response = await axios(
+          "https://jsonplaceholder.typicode.com/users"
+        );
+        setUsers(Response.data);
+      } catch (error) {
+        setError((error as AxiosError).message);
+      }
+    };
+    fetchUsers();
   }, []);
 
   return (
