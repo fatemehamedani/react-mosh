@@ -21,6 +21,19 @@ function App3() {
       });
   };
 
+  const addUser = () => {
+    const originalUsers = { ...users };
+    const newUser = { id: 0, name: "fatemeh" };
+    setUsers([...users, newUser]);
+    axios
+      .post("https://jsonplaceholder.typicode.com/users", newUser)
+      .then(({ data: savedUser }) => setUsers([savedUser, ...users]))
+      .catch((error) => {
+        setError(error.message);
+        setUsers(originalUsers);
+      });
+  };
+
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
@@ -46,6 +59,13 @@ function App3() {
       {loading && (
         <div className="w-8 h-8 border-4 border-gray-500 border-t-blue-600 rounded-full animate-spin"></div>
       )}
+
+      <button
+        className=" text-white border rounded-lg bg-blue-600 ml-3 py-1 mt-1 w-16"
+        onClick={addUser}
+      >
+        Add
+      </button>
 
       <ul className=" ml-4 divide-y divide-gray-600">
         {users.map((user) => (
