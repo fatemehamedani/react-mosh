@@ -34,6 +34,22 @@ function App3() {
       });
   };
 
+  const updateUser = (user: User) => {
+    const originalUsers = { ...users };
+    const updatedUser = { ...user, name: user.name + " !" };
+    setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
+
+    axios
+      .patch(
+        "https://jsonplaceholder.typicode.com/users/" + user.id,
+        updateUser
+      )
+      .catch((error) => {
+        setError(error.message);
+        setUsers(originalUsers);
+      });
+  };
+
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
@@ -71,12 +87,21 @@ function App3() {
         {users.map((user) => (
           <li key={user.id} className="flex justify-between">
             {user.name}
-            <button
-              className="text-gray-600 rounded-md border border-red-500 py-2 mt-4 w-24"
-              onClick={() => deleteUser(user)}
-            >
-              Delete
-            </button>
+            <div>
+              <button
+                className="text-gray-600 border border-gray-600 rounded-md py-2 mt-4 w-24"
+                onClick={() => updateUser(user)}
+              >
+                Updata
+              </button>
+
+              <button
+                className="text-gray-600 rounded-md border border-red-500 py-2 mt-4 w-24 mx-2"
+                onClick={() => deleteUser(user)}
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
