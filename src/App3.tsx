@@ -1,19 +1,15 @@
-import apiClient, { CanceledError } from "./services/api-client";
+import { CanceledError } from "./services/api-client";
 import { useEffect, useState } from "react";
+import userService, { User } from "./services/user-services";
 
 function App3() {
-  interface User {
-    id: number;
-    name: string;
-  }
-
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const deleteUser = (user: User) => {
     const originalUsers = [...users];
     setUsers(users.filter((u) => u.id !== user.id));
-    apiClient.delete("/users" + user.id).catch((error) => {
+    userService.deleteUser(user.id).catch((error) => {
       setError(error.message);
       setUsers(originalUsers);
     });
@@ -23,8 +19,8 @@ function App3() {
     const originalUsers = { ...users };
     const newUser = { id: 0, name: "fatemeh" };
     setUsers([...users, newUser]);
-    apiClient
-      .post("/users", newUser)
+    userService
+      .createUser(newUser)
       .then(({ data: savedUser }) => setUsers([savedUser, ...users]))
       .catch((error) => {
         setError(error.message);
@@ -37,19 +33,16 @@ function App3() {
     const updatedUser = { ...user, name: user.name + " !" };
     setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
 
-    apiClient.patch("/users/" + user.id, updateUser).catch((error) => {
+    userService.updateUser(updatedUser).catch((error) => {
       setError(error.message);
       setUsers(originalUsers);
     });
   };
 
   useEffect(() => {
-    const controller = new AbortController();
     setLoading(true);
-    apiClient
-      .get<User[]>("/users", {
-        signal: controller.signal,
-      })
+    const { request, cancel } = userService.getAllUsers();
+    request
       .then((response) => {
         setUsers(response.data);
         setLoading(false);
@@ -59,7 +52,7 @@ function App3() {
         setError(error.message);
         setLoading(false);
       });
-    return () => controller.abort();
+    return () => cancel();
   }, []);
 
   return (
